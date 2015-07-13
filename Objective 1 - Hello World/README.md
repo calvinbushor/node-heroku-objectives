@@ -3,6 +3,10 @@ Objective 1 - Create a Node.js Hello World app hosted on Heroku and Submit a Pul
 
 Your objective is to create a Hello World application deployed hosted on Heroku and to submit a pull request to this repository under the objective 1 folder with a title of your choosing.
 
+**View an example:**
+* Project: https://github.com/calvinbushor/node-heroku-objectives/tree/master/Objective%201%20-%20Hello%20World/HW-Example
+* Hosted App: https://obscure-taiga-6718.herokuapp.com/
+
 
 Things you will learn on this quest:
 ------------------------------------
