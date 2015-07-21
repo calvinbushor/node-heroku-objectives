@@ -47,6 +47,17 @@ Create an application with the following requirements:
 * A README.md file describing your application.
 
 **Install Dependencies:**
+* The app that we are writing has dependencies on two external modules, express and ejs.
+* To install these modules, we can choose one of two methods.
+
+Method 1:
+* In the package.json file, find the 'dependencies' section. Add the modules that your app uses to this section.
+* After all dependencies have been added, navigate to the root directory of your app.
+* Run the command 'npm install'.
+* This is the technique used in the example app. Take a look at the package.json file there for reference.
+
+Method 2:
+* Go into your application root directory and run these commands:
 * npm install express --save
 * npm install ejs --save
 
