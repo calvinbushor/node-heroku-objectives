@@ -1,0 +1,21 @@
+{
+  "name": "sample_app",
+  "description": "",
+  "version": "0.1.0",
+  "license": "TAMUK",
+  "author": "@AnubhavNandikonda",
+  "contributors": [],
+  "keywords": [],
+  "main": "app.js",
+  "dependencies": {
+    "ejs": "^2.3.3",
+    "express": "^4.13.1"
+  },
+  "scripts": {
+    "start": "node app.js"
+  },
+  "engines": {
+    "node": "0.12.7,
+    "npm": "2.11.3"
+  }
+}
