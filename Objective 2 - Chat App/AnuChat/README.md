@@ -7,6 +7,7 @@
 		** You will see a chat box open both browsers.
 		** Type something in the text box and click send or press enter.
 		** You will see the text you typed is displayed in both chat boxes.
+		** I have added User name option also.
+		** when ever a user is connected or disconnected it will be displayed in console.
 ### Up next:
-		** Adding User Names
 		** Private Chat
