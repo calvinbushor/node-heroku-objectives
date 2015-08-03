@@ -9,7 +9,9 @@
   "main": "app.js",
   "dependencies": {
     "ejs": "^2.3.3",
-    "express": "^4.13.1"
+    "express": "^4.13.1",
+    "http-server": "^0.8.0",
+    "dispatch": "^1.0.0"
   },
   "scripts": {
     "start": "node app.js"
