@@ -13,7 +13,7 @@
       #messages {list-style-type: none; margin: 0; padding: 0;}
       #messages li {padding: 5px 10px;}
       #messages .join {background: #ccffcc;}
-      #messages .otherchat {background: #eee}
+      #messages .chat {background: #eee}
       #messages .leave {background: #ffcccc}
     </style>
   </head>
@@ -32,40 +32,25 @@
 	<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
 	<script>
 		var socket = io();
+
+    //will ask for username and send a "join" handle
 		$('document').ready(function(){
 			username = prompt("What do you want your username to be?");
 			socket.emit('joined', username);
-			return false;
 		});
 
+    //will send message when "send" button is pushed
 		$('form').submit(function(){
-			socket.emit('chat message', {name:username, msg:$('#m').val()});
+			socket.emit('chat message', {name:username, msg:username + ": " + $('#m').val(), type:"chat"});
 			$('#m').val('');
 			return false;
 		});
-	/*
-		$('#m').keypress(function(e){
-			//alert('hi');
-			//$('#status').val($(this).val());
-			//socket.emit('typing', username);
-		});
-*/
+
 		//displays when a message is sent
 		socket.on('chat message', function(message){
-   		 $('#messages').append($('<li class = "otherchat">').text(message.name + ": " + message.msg));
-   		 });
-   		 //displays that someone has joined
-   		socket.on('joined', function(msg){
-   		 $('#messages').append($('<li class = "join">').text(msg));
-  		});
-  		//displays someone leaving the room
-  		socket.on('disconnect', function(msg){
-  		 $('#messages').append($('<li class = "leave">').text(msg));
-  		});
-  		//displays user typing
- /* 		socket.on('typing', function(msg){
-  		 $('#status').text(msg);
-  		});*/
+   		 $('#messages').append($('<li class = "' + message.type + '">').text(message.msg));
+       });
+
 	</script>
   </body>
 </html>
