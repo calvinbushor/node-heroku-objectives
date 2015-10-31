@@ -8,22 +8,27 @@ app.get('/', function(req, res){
 });
 
 var allClients = {};
+var chatLog = [];
+
+//{name:"", msg:"Welcome to the Node.js Chat App",type:"chat"}
 
 //this holds all functions for the chat room
 io.on('connection', function(socket){
 
 	//this part is when someone joins, it stores the socket and username
 	//for tracking purposes
-	socket.on('joined', function(username){
-		allClients[socket.id] = {socket: socket, name:username};
-		allClients[socket.id].socket = socket;
-		allClients[socket.id].name = username;
-		io.emit('chat message', {name:username, msg: username + " has joined the room", type:"join"});
+	socket.on('joined', function(message){
+		allClients[socket.id] = {tracker:socket, name:message.name};
+		socket.emit('sendLog',chatLog);
+		chatLog.push(message);
+		io.emit('chat message', message);
 	});
 
 	//this function emits a message when sent and logs
 	socket.on('chat message', function(message){
+	//	chatlog.push(message);
 		io.emit('chat message', message);
+		chatLog.push(message);
 	});
 
 /*
@@ -37,7 +42,9 @@ io.on('connection', function(socket){
 	//it then emits a message that the user disconnected
 	socket.on('disconnect', function(){
 		var username = allClients[socket.id].name;
-		io.emit('chat message', {name:username, msg:username + " left the room...", type:"leave"});
+		var message = {name:username, msg:username + " left the room...", type:"leave"}
+		chatLog.push(message);
+		io.emit('chat message', message);
 		delete allClients[socket.id];
 	});
 
