@@ -10,13 +10,14 @@ app.get('/', function(req, res){
 var allClients = {};
 var chatLog = [];
 
-//{name:"", msg:"Welcome to the Node.js Chat App",type:"chat"}
-
 //this holds all functions for the chat room
 io.on('connection', function(socket){
 
-	//this part is when someone joins, it stores the socket and username
-	//for tracking purposes
+	/*This event is fired from the client browser when they load the page
+		This stores their info indexed by socket.id
+		It then sends the conversation (chatLog) to that user
+		It pushes the "join" message to the log and emits a message to everyone
+		That the user joined*/
 	socket.on('joined', function(message){
 		allClients[socket.id] = {tracker:socket, name:message.name};
 		socket.emit('sendLog',chatLog);
@@ -24,11 +25,20 @@ io.on('connection', function(socket){
 		io.emit('chat message', message);
 	});
 
-	//this function emits a message when sent and logs
+	//this function emits a message when sent and logs it
 	socket.on('chat message', function(message){
-	//	chatlog.push(message);
 		io.emit('chat message', message);
 		chatLog.push(message);
+	});
+
+	//this function catches a disconnect and matches it to the username
+	//it then emits a message that the user disconnected and logs it
+	socket.on('disconnect', function(){
+		var username = allClients[socket.id].name;
+		var message = {name:username, msg:username + " left the room...", type:"leave"}
+		chatLog.push(message);
+		io.emit('chat message', message);
+		delete allClients[socket.id];
 	});
 
 /*
@@ -38,16 +48,6 @@ io.on('connection', function(socket){
 		//io.emit('typing', allClients[1]["name"] + " is typing...");
 	});
 */
-	//this function catches a disconnect and matches it to the username
-	//it then emits a message that the user disconnected
-	socket.on('disconnect', function(){
-		var username = allClients[socket.id].name;
-		var message = {name:username, msg:username + " left the room...", type:"leave"}
-		chatLog.push(message);
-		io.emit('chat message', message);
-		delete allClients[socket.id];
-	});
-
 });
 
 //this function sets up the web server attaching port 3000
