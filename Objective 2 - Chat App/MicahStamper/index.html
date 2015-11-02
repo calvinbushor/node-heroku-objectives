@@ -36,7 +36,14 @@
     //will ask for username and send a "join" handle
 		$('document').ready(function(){
 			username = prompt("What do you want your username to be?");
+      var timer;
 			socket.emit('joined', {name:username, msg:username + " has joined the room...", type:"join"});
+
+      $("#m").keypress(function(){
+         socket.emit('typing', 1);
+         clearTimeout(timer);
+         timer =  window.setTimeout(function(){socket.emit('typing',0);},500);
+       });
 		});
 
     //will send message when "send" button is pushed
@@ -50,6 +57,11 @@
 		socket.on('chat message', function(message){
    		 $('#messages').append($('<li class = "' + message.type + '">').text(message.msg));
        });
+
+    socket.on('typing', function(message){
+      $('#status').text(message);
+    });
+    //displays the entire log of messages in the room
     socket.on('sendLog', function(chatLog){
         for(i=0; i<chatLog.length; i++){
           $('#messages').append($('<li class = "' + chatLog[i].type + '">').text(chatLog[i].msg));

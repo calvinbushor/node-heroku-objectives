@@ -31,6 +31,15 @@ io.on('connection', function(socket){
 		chatLog.push(message);
 	});
 
+	socket.on('typing', function(trigger){
+		if(trigger == 1){
+			io.emit('typing', allClients[socket.id].name + " is typing...");
+		}
+		else if(trigger == 0){
+			io.emit('typing', "");
+		}
+	});
+
 	//this function catches a disconnect and matches it to the username
 	//it then emits a message that the user disconnected and logs it
 	socket.on('disconnect', function(){
