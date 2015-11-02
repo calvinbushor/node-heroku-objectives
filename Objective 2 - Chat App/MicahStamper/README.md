@@ -18,5 +18,5 @@ Updates to come:
   1. Broadcast a message to connected users when someone connects or disconnects DONE
   2. Add support for nicknames DONE
   3. Don't send the same message to the user that sent it.
-  4. Add "{user} is typing..." ability
+  4. Add "{user} is typing..." ability DONE
   5. Create homepage for app and allow others to create their own rooms
