@@ -15,8 +15,11 @@ How to run this program:
   6. You can then enter your messages into the chat box and exchange messages
 
 Updates to come:
-  1. Broadcast a message to connected users when someone connects or disconnects DONE
+  1. Log messages to a file to keep chats stored
+  2. Log clients to a file to keep in case of server failure
+  3. On startup check if clients still attached to prevent failure
+  
+Updates implemented:
+  1. Broadcast a message to connected users when someone connects or disconnects
   2. Add support for nicknames DONE
-  3. Don't send the same message to the user that sent it.
-  4. Add "{user} is typing..." ability DONE
-  5. Create homepage for app and allow others to create their own rooms
+  3. Add "{user} is typing..." ability DONE
