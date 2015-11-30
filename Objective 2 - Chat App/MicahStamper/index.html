@@ -29,7 +29,6 @@
   <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
 	<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
 	<script>
-
 		var socket = io();
     var username;
     //will ask for username and send a "join" handle
@@ -63,7 +62,6 @@
 
     //displays the entire log of messages in the room
     socket.on('sendLog', function(chatLog){
-        alert(chatLog.length);
         for(i=0; i<chatLog.length; i++){
           $('#messages').append($('<li class = "' + chatLog[i].type + '">').text(chatLog[i].message));
         }

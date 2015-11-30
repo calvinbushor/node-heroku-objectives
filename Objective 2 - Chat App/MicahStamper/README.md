@@ -18,8 +18,8 @@ Updates to come:
   1. Log messages to a file to keep chats stored
   2. Log clients to a file to keep in case of server failure
   3. On startup check if clients still attached to prevent failure
-  
+
 Updates implemented:
   1. Broadcast a message to connected users when someone connects or disconnects
-  2. Add support for nicknames DONE
-  3. Add "{user} is typing..." ability DONE
+  2. Add support for nicknames
+  3. Add "{user} is typing..." ability

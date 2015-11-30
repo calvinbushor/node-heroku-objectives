@@ -10,4 +10,5 @@ client.prototype.updateActivity = function(){
   this.lastActivity = timestamp.timestamp();
   return this.lastActivity;
 }
+
 module.exports = client;
