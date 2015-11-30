@@ -2,7 +2,7 @@ var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var clients = require("./myModules/Clients/clients");
-var logs = require("./myModules/Logs/logs");
+var logs = require("./myModules/LogModules/logs");
 var stats = require("./myModules/api/stats")
 
 //this function will return the "index.html" file to the requester
@@ -24,6 +24,7 @@ io.on('connection', function(socket){
 		clients.add(socket.id, message.name);
 		socket.emit('sendLog',logs.getLogs());
 		logs.add(message);
+		stats.addUsername(message.name);
 		io.emit('chat message', message);
 	});
 
@@ -32,6 +33,7 @@ io.on('connection', function(socket){
 		io.emit('chat message', message);
 		logs.add(message);
 		clients.get(socket.id).updateActivity();
+		stats.addMessage();
 	});
 
 /*This is for displaying if a user is typing
@@ -65,20 +67,17 @@ io.on('connection', function(socket){
 	/*this function catches a disconnect and matches it to the username
 		it then emits a message that the user disconnected and logs it	*/
 	socket.on('disconnect', function(){
-		var client = clients.get(socket.id)
-		if(client == -1){
-			socket.emit('username');
-		}
-		else{
-			var username = clients.get(socket.id).username;
-			clients.remove(socket.id);
-			var message = {name:username, msg:username + " left the room...", type:"leave"}
-			logs.add(message);
-			io.emit('chat message', message);
+		try{
+				var username = clients.get(socket.id).username;
+				clients.remove(socket.id);
+				var message = {name:username, msg:username + " left the room...", type:"leave"};
+				logs.add(message);
+				io.emit('chat message', message);
+		} catch(err){
+			console.log("Error adding person. ClientID/Username not found");
 		}
 	});
 });
-
 //this function sets up the web server attaching port 3000
 http.listen(3000, function(){
 	console.log('listening on *:3000');

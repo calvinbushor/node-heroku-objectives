@@ -5,7 +5,6 @@ function writeClientToFile(clientToWrite){
     fs.appendFile('clients.dat', JSON.stringify(clientToWrite)+"\n",function (err) {
         if (err) throw err;
     });
-    console.log("Writing..." + clientToWrite.username);
 }
 
 function writeClientsToFile(clientsToWrite){
@@ -44,7 +43,6 @@ function removeClientFromFile(id){
     var clients = readClientsFromFile();
     for(var i = 0; i<clients.length;i++){
       if(clients[i].id == id)
-        console.log("hiiiiii");
           clients.splice(i,1);
     }
     removeClientsFromFile();
@@ -54,7 +52,7 @@ function removeClientFromFile(id){
 function removeClientsFromFile(){
     fs.unlinkSync('clients.dat', function(err) {
       if(err)
-        console.log("trouble deleting file!");
+        console.log("trouble deleting clients file!");
   });
 }
 

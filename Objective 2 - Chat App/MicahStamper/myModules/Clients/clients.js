@@ -1,5 +1,6 @@
 var client = require("./client");
 var clientIO = require("./ClientIO");
+var stats = require("../api/stats.js");
 var clients = [];
 
 clientsStartup();
@@ -7,7 +8,6 @@ clientsStartup();
 function addClient(id, username){
     var newClient = new client(id,username);
     clients.push(newClient);
-    console.log("logging " + username);
     clientIO.addClient(newClient);
 }
 
