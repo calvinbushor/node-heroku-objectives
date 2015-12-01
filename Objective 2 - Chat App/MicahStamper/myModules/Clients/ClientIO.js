@@ -1,18 +1,21 @@
 var fs = require("fs");
 var client = require("./client");
 
+//Given the client paramater, it will write this to the clients.dat file
 function writeClientToFile(clientToWrite){
     fs.appendFile('clients.dat', JSON.stringify(clientToWrite)+"\n",function (err) {
         if (err) throw err;
     });
 }
 
+//Given the paramter of an array of clients, it will write each one to the file
 function writeClientsToFile(clientsToWrite){
     for(var i = 0; i<clientsToWrite.length;i++){
       writeClientToFile(clientsToWrite[i]);
     }
 }
 
+//This will open the clients.dat file and read all of them and return them as JSON
 function readClientsFromFile(){
   try{
       var readIn = fs.readFileSync('clients.dat','utf8');
@@ -29,6 +32,7 @@ function readClientsFromFile(){
   }
 }
 
+//Given a client object, this will find a particular client and return it
 function readClientFromFile(clientToRead){
     var clients = readClientsFromFile();
     for(var i = 0; i<clients.length;i++){
@@ -39,6 +43,7 @@ function readClientFromFile(clientToRead){
     }
 }
 
+//Given an ID, this will remove a client from the current list
 function removeClientFromFile(id){
     var clients = readClientsFromFile();
     for(var i = 0; i<clients.length;i++){
@@ -49,6 +54,7 @@ function removeClientFromFile(id){
     writeClientsToFile(clients);
 }
 
+//This will remove all clients from the file
 function removeClientsFromFile(){
     fs.unlinkSync('clients.dat', function(err) {
       if(err)

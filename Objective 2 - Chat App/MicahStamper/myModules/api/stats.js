@@ -1,5 +1,7 @@
 var fs = require("fs");
 var clients = require("../Clients/clients");
+
+//this will read the messageCount file and return the number of messages sent
 function getMessagesSent(){
   try{
     var readIn =  parseInt(fs.readFileSync('./MyModules/api/statFiles/messageCount.dat','utf8'));
@@ -11,6 +13,7 @@ function getMessagesSent(){
   }
 }
 
+//this will read the userCount.dat file and return the number of users
 function getUsersJoined(){
   try{
     var readIn = parseInt(fs.readFileSync('./MyModules/api/statFiles/userCount.dat','utf8'));
@@ -22,6 +25,7 @@ function getUsersJoined(){
   }
 }
 
+//this will read the usernames.dat file and get all usernames
 function getUsernames(){
   try{
     var check = fs.readFileSync('./MyModules/api/statFiles/usernames.dat','utf8');
@@ -40,6 +44,7 @@ function getUsernames(){
   }
 }
 
+//this will add a user to the usernames.dat file
 function addUser(user){
   fs.appendFile('./MyModules/api/statFiles/usernames.dat',JSON.stringify(user) + ", ",function (err) {
       if (err) throw err;
@@ -47,6 +52,7 @@ function addUser(user){
   addUserCount();
 }
 
+//this will increment the value in the messageCount.dat file
 function addMessage(){
   var readIn;
   try{
@@ -66,6 +72,7 @@ function addMessage(){
     });
 }
 
+//this will increment the value in the userCount.dat file
 function addUserCount(){
   var readIn;
   try{
@@ -85,6 +92,7 @@ function addUserCount(){
     });
 }
 
+//this will return a JSON of all attributes on the api
 function getStats(){
   console.log('{"messagesSent":' + getMessagesSent() + ', "usersJoined":' + getUsersJoined() + ',' + getUsernames() + '}');
   return JSON.parse('{"messagesSent":' + getMessagesSent() + ', "usersJoined":' + getUsersJoined() + ',' + getUsernames() + '}');

@@ -23,33 +23,39 @@ function removeClient(id){
     }
 }
 
+//Given a client ID, it will update their activity
 function updateActivity(id)
 {
   var index = findClientByID(id);
-  console.log("Before " + clients[index].lastActivity);
   clients[index].lastActivity = timestamp.timestamp();
-  console.log("After " + clients[index].lastActivity);
   refreshClients();
 }
 
+//this will clear out the 'clients.dat' file and rewrite it with the client array
+//TODO: move this to ClientIO
 function refreshClients()
 {
     clientIO.removeClients();
     clientIO.addClients(clients);
 }
+
+//This will clear out all the clients in memory and the file
 function removeClients(){
     clients = [];
     clientIO.removeClients();
 }
 
+//Given an ID, it will return the client object
 function getClient(id){
     return clients[findClientByID(id)];
 }
 
+//this will return all current clients
 function getClients(){
     return clients;
 }
 
+//Given a username, it will return the index of the object in memory
 function findClientByUsername(username)
 {
   for(var i = 0; i<clients.length; i++){
@@ -58,6 +64,8 @@ function findClientByUsername(username)
   }
   return -1;
 }
+
+//Given an id, it will return the index of the object in memory
 function findClientByID(id){
     for(var i = 0; i<clients.length; i++){
       if(clients[i].id == id)
@@ -66,6 +74,7 @@ function findClientByID(id){
     return -1;
 }
 
+//this is called on startup and puts all clients from 'clients.dat' into memory
 function clientsStartup(){
     clients = clientIO.getClients();
 }
