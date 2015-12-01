@@ -1,4 +1,5 @@
 var fs = require("fs");
+var clients = require("../Clients/clients");
 function getMessagesSent(){
   try{
     var readIn =  parseInt(fs.readFileSync('./MyModules/api/statFiles/messageCount.dat','utf8'));
@@ -24,7 +25,7 @@ function getUsersJoined(){
 function getUsernames(){
   try{
     var check = fs.readFileSync('./MyModules/api/statFiles/usernames.dat','utf8');
-    check = '"usernames": {' + check.substring(0,check.length-2) + '}';
+    check = '"users": [' + check.substring(0,check.length-2) + ']';
     var readIn = check;
     if(readIn!="")
     {
@@ -39,11 +40,11 @@ function getUsernames(){
   }
 }
 
-function addUsername(username){
-  fs.appendFile('./MyModules/api/statFiles/usernames.dat','"' + username + '": "' + username + '", ' ,function (err) {
+function addUser(user){
+  fs.appendFile('./MyModules/api/statFiles/usernames.dat',JSON.stringify(user) + ", ",function (err) {
       if (err) throw err;
   });
-  addUser();
+  addUserCount();
 }
 
 function addMessage(){
@@ -65,7 +66,7 @@ function addMessage(){
     });
 }
 
-function addUser(){
+function addUserCount(){
   var readIn;
   try{
       readIn = fs.readFileSync('./MyModules/api/statFiles/userCount.dat','utf8');
@@ -89,5 +90,5 @@ function getStats(){
   return JSON.parse('{"messagesSent":' + getMessagesSent() + ', "usersJoined":' + getUsersJoined() + ',' + getUsernames() + '}');
 }
 module.exports.get = getStats;
-module.exports.addUsername = addUsername;
+module.exports.addUser = addUser;
 module.exports.addMessage = addMessage;

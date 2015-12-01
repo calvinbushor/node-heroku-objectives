@@ -1,4 +1,5 @@
 var log = require("./log");
+var clients = require("../Clients/clients");
 
 var logs = [];
 

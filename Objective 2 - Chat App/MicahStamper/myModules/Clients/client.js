@@ -6,7 +6,7 @@ function client(id, username){
   this.lastActivity = timestamp.timestamp();
 }
 
-client.prototype.updateActivity = function(){
+function updateActivity() {
   this.lastActivity = timestamp.timestamp();
   return this.lastActivity;
 }

@@ -1,6 +1,7 @@
 var client = require("./client");
 var clientIO = require("./ClientIO");
 var stats = require("../api/stats.js");
+var timestamp = require("../timestamp");
 var clients = [];
 
 clientsStartup();
@@ -8,6 +9,7 @@ clientsStartup();
 function addClient(id, username){
     var newClient = new client(id,username);
     clients.push(newClient);
+    stats.addUser(newClient);
     clientIO.addClient(newClient);
 }
 
@@ -21,6 +23,20 @@ function removeClient(id){
     }
 }
 
+function updateActivity(id)
+{
+  var index = findClientByID(id);
+  console.log("Before " + clients[index].lastActivity);
+  clients[index].lastActivity = timestamp.timestamp();
+  console.log("After " + clients[index].lastActivity);
+  refreshClients();
+}
+
+function refreshClients()
+{
+    clientIO.removeClients();
+    clientIO.addClients(clients);
+}
 function removeClients(){
     clients = [];
     clientIO.removeClients();
@@ -59,3 +75,4 @@ module.exports.remove = removeClient;
 module.exports.getClients = getClients;
 module.exports.get = getClient;
 module.exports.getByUsername = findClientByUsername;
+module.exports.updateActivity = updateActivity;

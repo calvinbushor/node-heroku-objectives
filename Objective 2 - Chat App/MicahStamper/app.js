@@ -24,7 +24,6 @@ io.on('connection', function(socket){
 		clients.add(socket.id, message.name);
 		socket.emit('sendLog',logs.getLogs());
 		logs.add(message);
-		stats.addUsername(message.name);
 		io.emit('chat message', message);
 	});
 
@@ -32,7 +31,7 @@ io.on('connection', function(socket){
 	socket.on('chat message', function(message){
 		io.emit('chat message', message);
 		logs.add(message);
-		clients.get(socket.id).updateActivity();
+		clients.updateActivity(socket.id);
 		stats.addMessage();
 	});
 
@@ -43,7 +42,7 @@ io.on('connection', function(socket){
 		if(trigger == 1){
 			var client = clients.get(socket.id);
 			io.emit('typing', client.username + " is typing...");
-			client.updateActivity();
+			clients.updateActivity(socket.id);
 		}
 		else if(trigger == 0){
 			io.emit('typing', "");
