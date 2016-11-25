@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Micah's Chat Room</title>
+    <style>
+      * {margin: 0; padding: 0; box-sizing: border-box;}
+      body {font: 13px Helvetica, Arial;}
+      form {background: #000; padding: 3px; width: 100%;}
+      form input {border: 0; padding: 10px; width: 90%; margin-right: .5%;}
+      .wrapper {position: absolute; bottom: 0; width:100%}
+      form button {width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px;}
+      #status {width: 100%; height:20px; border: none; position: relative; bottom:0;}
+      #messages {list-style-type: none; margin: 0; padding: 0;}
+      #messages li {padding: 5px 10px;}
+      #messages .join {background: #ccffcc;}
+      #messages .chat {background: #eee;}
+      #messages .leave {background: #ffcccc;}
+      #messages .error {background: #ffef99;}
+    </style>
+  </head>
+ <body>
+    <ul id="messages"></ul>
+    <div class="wrapper">
+        	<div id="status"></div>
+    <form action="">
+      <input id="m" autocomplete="off" /><button>Send</button>
+    </form>
+    </div>
+  <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+	<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+	<script>
+		var socket = io();
+    var username;
+    //will ask for username and send a "join" handle
+		$('document').ready(function(){
+			username = prompt("What do you want your username to be?");
+      var timer;
+			socket.emit('joined', {name:username, msg:username + " has joined the room...", type:"join"});
+
+      $("#m").keypress(function(){
+         socket.emit('typing', 1);
+         clearTimeout(timer);
+         timer =  window.setTimeout(function(){socket.emit('typing',0);},500);
+       });
+		});
+
+    //will send message when "send" button is pushed
+		$('form').submit(function(){
+			socket.emit('chat message', {name:username, msg:username + ": " + $('#m').val(), type:"chat"});
+			$('#m').val('');
+			return false;
+		});
+
+		//displays when a message is sent
+		socket.on('chat message', function(message){
+   		 $('#messages').append($('<li class = "' + message.type + '">').text(message.msg));
+       });
+
+    socket.on('typing', function(message){
+      $('#status').text(message);
+    });
+
+    //displays the entire log of messages in the room
+    socket.on('sendLog', function(chatLog){
+        for(i=0; i<chatLog.length; i++){
+          $('#messages').append($('<li class = "' + chatLog[i].type + '">').text(chatLog[i].message));
+        }
+    });
+	</script>
+  </body>
+</html>
